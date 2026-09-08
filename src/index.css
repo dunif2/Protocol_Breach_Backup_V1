@@ -1,23 +1,22 @@
 :root {
   color-scheme: dark;
 
-  --cor-fundo: #050b0a;
-  --cor-fundo-painel: #0a1613;
-  --cor-fundo-painel-alt: #0d1e19;
-  --cor-borda: #1e4d3f;
-  --cor-borda-clara: #2f7a5f;
-  --cor-primaria: #39ff8a;
-  --cor-primaria-dim: #1fa85c;
-  --cor-secundaria: #4fd6ff;
-  --cor-alerta: #ff4d5e;
-  --cor-aviso: #ffd166;
-  --cor-texto: #c8ffe1;
-  --cor-texto-dim: #6f9c8b;
-  --cor-texto-muted: #4c7466;
+  /* Paleta — Protocol: Breach */
+  --bg-deep: #020408;
+  --bg-panel: #060d14;
+  --bg-card: #091520;
+  --blue-neon: #00d4ff;
+  --green-terminal: #00ff88;
+  --red-alert: #ff2244;
+  --amber-warning: #ffaa00;
+  --text-primary: #c8e8ff;
+  --text-secondary: #5a8aaa;
 
-  --fonte-mono: "Consolas", "Courier New", ui-monospace, monospace;
+  --font-display: "Orbitron", "Segoe UI", sans-serif;
+  --font-mono: "Share Tech Mono", "Consolas", monospace;
+  --font-body: "Rajdhani", "Segoe UI", sans-serif;
 
-  font-family: var(--fonte-mono);
+  font-family: var(--font-body);
 }
 
 * {
@@ -32,37 +31,77 @@ body {
 }
 
 body {
-  background: var(--cor-fundo);
-  color: var(--cor-texto);
-  background-image:
-    radial-gradient(ellipse at top, rgba(57, 255, 138, 0.06), transparent 60%),
-    repeating-linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.015) 0px,
-      rgba(255, 255, 255, 0.015) 1px,
-      transparent 1px,
-      transparent 3px
-    );
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-size: 15px;
+  overflow-x: hidden;
 }
 
 #root {
   min-height: 100vh;
+  position: relative;
+}
+
+/* ---------- Grid de fundo cyberpunk ---------- */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.07) 1px, transparent 1px);
+  background-size: 42px 42px;
+  background-position: center;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
+}
+
+/* ---------- Scanline CRT ---------- */
+.scanline {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 140px;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 212, 255, 0.05) 45%,
+    rgba(0, 212, 255, 0.12) 50%,
+    rgba(0, 212, 255, 0.05) 55%,
+    transparent 100%
+  );
+  animation: scan-move 8s linear infinite;
+}
+
+@keyframes scan-move {
+  0% {
+    transform: translateY(-140px);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
 }
 
 ::selection {
-  background: var(--cor-primaria);
+  background: var(--blue-neon);
   color: #04140c;
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--cor-fundo-painel);
+  background: var(--bg-panel);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--cor-borda-clara);
+  background: rgba(0, 212, 255, 0.35);
   border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 255, 0.6);
 }
 
 button {
@@ -75,5 +114,10 @@ button:disabled {
 }
 
 a {
-  color: var(--cor-secundaria);
+  color: var(--blue-neon);
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
 }

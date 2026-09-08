@@ -1,0 +1,132 @@
+.tela {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.marca {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.4em;
+  color: var(--amber-warning);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.titulo {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.4rem, 7vw, 4.2rem);
+  color: var(--blue-neon);
+  text-shadow:
+    0 0 12px rgba(0, 212, 255, 0.7),
+    0 0 32px rgba(0, 212, 255, 0.35);
+  margin: 0;
+  text-align: center;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+}
+
+.subtitulo {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  margin: 14px 0 34px;
+  text-transform: uppercase;
+}
+
+.consola {
+  width: min(560px, 92vw);
+  background: rgba(6, 13, 20, 0.85);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 6px;
+  padding: 22px 26px;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.9;
+  min-height: 190px;
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+}
+
+.linhaBoot {
+  opacity: 0;
+  animation: aparecer 0.3s ease forwards;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tagOK {
+  color: var(--green-terminal);
+  font-weight: bold;
+}
+.tagWARN {
+  color: var(--amber-warning);
+  font-weight: bold;
+}
+.tagCRIT {
+  color: var(--red-alert);
+  font-weight: bold;
+}
+
+.cursor {
+  color: var(--green-terminal);
+  margin-top: 6px;
+}
+
+.cursor::after {
+  content: "_";
+  animation: piscar 1s steps(1) infinite;
+}
+
+@keyframes piscar {
+  50% {
+    opacity: 0;
+  }
+}
+
+.botao {
+  margin-top: 34px;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  background: transparent;
+  color: var(--blue-neon);
+  border: 1px solid var(--blue-neon);
+  padding: 14px 34px;
+  border-radius: 3px;
+  opacity: 0;
+  animation: surgir 0.6s ease forwards;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.botao:hover {
+  background: var(--blue-neon);
+  color: #021018;
+  box-shadow: 0 0 22px rgba(0, 212, 255, 0.6);
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

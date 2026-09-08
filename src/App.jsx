@@ -1,76 +1,42 @@
-import { useState } from "react";
-import { fases } from "./data/fases";
-import IntroScreen from "./components/IntroScreen";
-import HubScreen from "./components/HubScreen";
-import TerminalScreen from "./components/TerminalScreen";
-import PhaseCompleteScreen from "./components/PhaseCompleteScreen";
-import "./App.css";
+import { AnimatePresence, motion } from "framer-motion";
+import useGameStore from "./store/useGameStore";
+import BootScreen from "./screens/BootScreen";
+import SOCDashboard from "./screens/SOCDashboard";
+import GameplayScreen from "./screens/GameplayScreen";
+import CodexScreen from "./screens/CodexScreen";
+import MissionModal from "./screens/MissionModal";
 
-function progressoInicial() {
-  const estado = {};
-  fases.forEach((fase, indice) => {
-    estado[fase.id] = { status: indice === 0 ? "em_progresso" : "bloqueada" };
-  });
-  return estado;
-}
+const TELAS = {
+  boot: BootScreen,
+  soc: SOCDashboard,
+  gameplay: GameplayScreen,
+  codex: CodexScreen,
+};
 
 export default function App() {
-  const [tela, setTela] = useState("intro"); // intro | hub | terminal | conclusao
-  const [faseAtualId, setFaseAtualId] = useState(null);
-  const [progresso, setProgresso] = useState(progressoInicial);
+  const currentScreen = useGameStore((s) => s.currentScreen);
+  const goToScreen = useGameStore((s) => s.goToScreen);
 
-  const indiceFaseAtual = fases.findIndex((f) => f.id === faseAtualId);
-  const faseAtual = indiceFaseAtual >= 0 ? fases[indiceFaseAtual] : null;
-  const proximaFase = fases[indiceFaseAtual + 1] ?? null;
-
-  function irParaHub() {
-    setFaseAtualId(null);
-    setTela("hub");
-  }
-
-  function iniciarFase(faseId) {
-    setFaseAtualId(faseId);
-    setTela("terminal");
-  }
-
-  function concluirFase(faseId) {
-    setProgresso((atual) => {
-      const proximo = { ...atual, [faseId]: { status: "concluida" } };
-      const indice = fases.findIndex((f) => f.id === faseId);
-      const seguinte = fases[indice + 1];
-      if (seguinte && proximo[seguinte.id]?.status === "bloqueada") {
-        proximo[seguinte.id] = { status: "em_progresso" };
-      }
-      return proximo;
-    });
-    setTela("conclusao");
-  }
+  const TelaAtual = TELAS[currentScreen];
 
   return (
     <>
-      {tela === "intro" && <IntroScreen onIniciar={irParaHub} />}
+      <div className="grid-bg" />
+      <div className="scanline" />
 
-      {tela === "hub" && (
-        <HubScreen fases={fases} progresso={progresso} onSelecionarFase={iniciarFase} />
-      )}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentScreen}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.35, ease: "easeInOut" }}
+        >
+          <TelaAtual onEntrar={() => goToScreen("soc")} />
+        </motion.div>
+      </AnimatePresence>
 
-      {tela === "terminal" && faseAtual && (
-        <TerminalScreen
-          key={faseAtual.id}
-          fase={faseAtual}
-          onFaseConcluida={concluirFase}
-          onVoltarHub={irParaHub}
-        />
-      )}
-
-      {tela === "conclusao" && faseAtual && (
-        <PhaseCompleteScreen
-          fase={faseAtual}
-          existeProximaFase={Boolean(proximaFase)}
-          onProximaFase={() => iniciarFase(proximaFase.id)}
-          onVoltarHub={irParaHub}
-        />
-      )}
+      <MissionModal />
     </>
   );
 }

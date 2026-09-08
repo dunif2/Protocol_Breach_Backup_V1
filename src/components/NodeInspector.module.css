@@ -1,0 +1,59 @@
+.painel {
+  background: var(--bg-card);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 6px;
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+}
+
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.nome {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  color: var(--blue-neon);
+  letter-spacing: 0.05em;
+}
+
+.fechar {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.fechar:hover {
+  color: var(--red-alert);
+}
+
+.linhas {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 14px;
+  font-size: 0.8rem;
+}
+
+.chave {
+  color: var(--text-secondary);
+}
+
+.valor {
+  color: var(--text-primary);
+}
+
+.valor.online {
+  color: var(--green-terminal);
+}
+.valor.warning,
+.valor.degraded {
+  color: var(--amber-warning);
+}
+.valor.offline {
+  color: var(--red-alert);
+}

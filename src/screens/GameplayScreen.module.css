@@ -1,0 +1,100 @@
+.tela {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 22px;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+  background: rgba(6, 13, 20, 0.6);
+}
+
+.voltar {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  background: transparent;
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  color: var(--blue-neon);
+  padding: 8px 14px;
+  border-radius: 4px;
+}
+
+.voltar:hover {
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.faseLabel {
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.progresso {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 320px;
+  margin-left: auto;
+}
+
+.trilhaProgresso {
+  flex: 1;
+  height: 6px;
+  background: rgba(0, 212, 255, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.preenchimentoProgresso {
+  height: 100%;
+  background: var(--blue-neon);
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+  transition: width 0.6s ease;
+}
+
+.contagemProgresso {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.corpo {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 16px;
+  padding: 16px 22px 22px;
+  min-height: 0;
+}
+
+.colunaMapa,
+.colunaLateral {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+
+.mapaHolder {
+  flex: 1;
+  min-height: 0;
+  background: var(--bg-card);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.terminalHolder {
+  flex: 1;
+  min-height: 0;
+}

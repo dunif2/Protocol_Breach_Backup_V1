@@ -1,0 +1,73 @@
+.painel {
+  background: var(--bg-card);
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.titulo {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--text-secondary);
+}
+
+.contagem {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--blue-neon);
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.item.concluido {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+}
+
+.check {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  width: 1.2em;
+  flex-shrink: 0;
+}
+
+.item.concluido .check {
+  color: var(--green-terminal);
+  text-decoration: none;
+}
+
+.barraProgresso {
+  margin-top: 12px;
+  height: 5px;
+  background: rgba(0, 212, 255, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.barraPreenchida {
+  height: 100%;
+  background: var(--blue-neon);
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+  transition: width 0.8s ease;
+}

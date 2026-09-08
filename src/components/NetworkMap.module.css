@@ -1,0 +1,124 @@
+.wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.titulo {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.svgHolder {
+  flex: 1;
+  min-height: 0;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+}
+
+.aresta {
+  stroke: rgba(0, 212, 255, 0.35);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 5;
+  fill: none;
+  animation: fluxo 1s linear infinite;
+}
+
+.arestaCritica {
+  stroke: var(--red-alert);
+  stroke-width: 2;
+  animation-duration: 0.4s;
+}
+
+@keyframes fluxo {
+  to {
+    stroke-dashoffset: -11;
+  }
+}
+
+.pacote {
+  fill: var(--red-alert);
+  opacity: 0.85;
+  filter: drop-shadow(0 0 4px var(--red-alert));
+}
+
+.no {
+  cursor: pointer;
+}
+
+.circulo {
+  fill: var(--bg-card);
+  stroke-width: 2.5;
+  transition: stroke 0.3s ease, filter 0.3s ease;
+}
+
+.no:hover .circulo {
+  filter: brightness(1.3);
+}
+
+.status-online .circulo {
+  stroke: var(--green-terminal);
+  filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.5));
+}
+
+.status-warning .circulo,
+.status-degraded .circulo {
+  stroke: var(--amber-warning);
+  filter: drop-shadow(0 0 5px rgba(255, 170, 0, 0.55));
+}
+
+.status-offline .circulo {
+  stroke: var(--red-alert);
+  animation: pulsoCritico 1s ease-in-out infinite;
+}
+
+@keyframes pulsoCritico {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 3px rgba(255, 34, 68, 0.4));
+    stroke-opacity: 1;
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(255, 34, 68, 0.9));
+    stroke-opacity: 0.4;
+  }
+}
+
+.pontoInterno {
+  transition: fill 0.3s ease;
+}
+
+.status-online .pontoInterno {
+  fill: var(--green-terminal);
+}
+.status-warning .pontoInterno,
+.status-degraded .pontoInterno {
+  fill: var(--amber-warning);
+}
+.status-offline .pontoInterno {
+  fill: var(--red-alert);
+}
+
+.rotulo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: bold;
+  fill: var(--text-primary);
+  text-anchor: middle;
+}
+
+.ip {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  fill: var(--text-secondary);
+  text-anchor: middle;
+}
