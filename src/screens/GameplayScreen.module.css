@@ -61,6 +61,24 @@
   transition: width 0.6s ease;
 }
 
+.botaoCodex {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  background: var(--bg-card);
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  color: var(--blue-neon);
+  padding: 8px 14px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.botaoCodex:hover {
+  background: rgba(0, 212, 255, 0.1);
+  box-shadow: 0 0 14px rgba(0, 212, 255, 0.3);
+}
+
 .contagemProgresso {
   font-family: var(--font-mono);
   font-size: 0.78rem;

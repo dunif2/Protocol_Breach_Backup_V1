@@ -1,13 +1,13 @@
 import { useState } from "react";
 import useGameStore from "../store/useGameStore";
 import { missions } from "../data/missions";
-import { getComandosDaFase } from "../data/commands";
 import { useTerminal } from "../hooks/useTerminal";
 import { useProgress } from "../hooks/useProgress";
 import NetworkMap from "../components/NetworkMap";
 import NodeInspector from "../components/NodeInspector";
 import ObjectiveTracker from "../components/ObjectiveTracker";
 import Terminal from "../components/Terminal";
+import GameCodex from "../components/GameCodex";
 import styles from "./GameplayScreen.module.css";
 
 export default function GameplayScreen() {
@@ -18,6 +18,7 @@ export default function GameplayScreen() {
   const { completarObjetivo } = useProgress();
 
   const [nodeSelecionado, setNodeSelecionado] = useState(null);
+  const [codexAberto, setCodexAberto] = useState(false);
 
   const missao = missions[faseId];
   const concluidos = objectives[faseId] ?? {};
@@ -26,12 +27,10 @@ export default function GameplayScreen() {
     { tipo: "sistema", texto: `INCIDENTE: ${missao.title}\n${missao.lore}` },
   ];
 
-  const { historico, valor, setValor, enviar, executar, processando } = useTerminal(
+  const { historico, valor, setValor, enviar, processando } = useTerminal(
     faseId,
     historicoInicial
   );
-
-  const pills = getComandosDaFase(faseId).map((c) => c.exemplo);
 
   function handleNodeClick(nodeId) {
     setNodeSelecionado(nodeId);
@@ -65,6 +64,13 @@ export default function GameplayScreen() {
             {totalConcluidos}/{missao.objectives.length}
           </span>
         </div>
+        <button
+          className={styles.botaoCodex}
+          onClick={() => setCodexAberto(true)}
+          title="Codex · Comandos disponíveis"
+        >
+          📖 CODEX
+        </button>
       </div>
 
       <div className={styles.corpo}>
@@ -93,14 +99,18 @@ export default function GameplayScreen() {
               valor={valor}
               onValorChange={setValor}
               onEnviar={enviar}
-              placeholder="digite um comando..."
-              pills={pills}
-              onPillClick={(pill) => executar(pill)}
+              placeholder='digite um comando... ("help" para ajuda, Codex para consultar comandos)'
               processando={processando}
             />
           </div>
         </div>
       </div>
+
+      <GameCodex
+        aberto={codexAberto}
+        onFechar={() => setCodexAberto(false)}
+        faseId={faseId}
+      />
     </div>
   );
 }

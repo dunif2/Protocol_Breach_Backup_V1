@@ -82,6 +82,9 @@ export default function Terminal({
           spellCheck={false}
           disabled={processando}
         />
+        <button type="submit" className={styles.enviar} disabled={processando}>
+          ENVIAR
+        </button>
       </form>
 
       {pills && pills.length > 0 && (

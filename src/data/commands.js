@@ -187,7 +187,7 @@ Adaptador Ethernet SOC-WORKSTATION:
       oQueFaz:
         "Envia um sinal de reinicialização para um host e aguarda a confirmação de retorno ao ar.",
       porQueUsar:
-        "Último passo para restaurar um servidor após confirmar que a conectividade básica falhou — use somente depois de diagnosticar o problema.",
+        "Força um host a reiniciar sua conexão de rede, útil quando um serviço para de responder.",
       exemplo: "restart finance-02",
       executar: (paramRaw, ctx) => {
         if (!paramRaw) {
