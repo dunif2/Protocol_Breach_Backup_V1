@@ -1,0 +1,479 @@
+/* ==================== Layout genérico ==================== */
+
+.tela {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+}
+
+.marca {
+  font-size: 0.85rem;
+  letter-spacing: 0.35em;
+  color: var(--cor-texto-dim);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.titulo-jogo {
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  color: var(--cor-primaria);
+  text-shadow: 0 0 12px rgba(57, 255, 138, 0.45);
+  margin: 0 0 24px;
+  letter-spacing: 0.05em;
+}
+
+.botao {
+  font-family: inherit;
+  background: transparent;
+  border: 1px solid var(--cor-borda-clara);
+  color: var(--cor-primaria);
+  padding: 12px 28px;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.botao:hover:not(:disabled) {
+  background: var(--cor-primaria);
+  color: #04140c;
+  box-shadow: 0 0 18px rgba(57, 255, 138, 0.5);
+}
+
+.botao--secundario {
+  border-color: var(--cor-texto-muted);
+  color: var(--cor-secundaria);
+}
+
+.botao--secundario:hover:not(:disabled) {
+  background: var(--cor-secundaria);
+  color: #04140c;
+  box-shadow: 0 0 18px rgba(79, 214, 255, 0.5);
+}
+
+/* ==================== Intro ==================== */
+
+.intro__caixa {
+  max-width: 640px;
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-fundo-painel);
+  padding: 36px 40px;
+  border-radius: 4px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.intro__texto {
+  color: var(--cor-texto);
+  line-height: 1.7;
+  font-size: 0.98rem;
+  white-space: pre-line;
+}
+
+.intro__prompt {
+  color: var(--cor-primaria-dim);
+  margin-top: 24px;
+  font-size: 0.9rem;
+}
+
+.intro__acoes {
+  margin-top: 28px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ==================== Hub ==================== */
+
+.hub {
+  width: 100%;
+  max-width: 900px;
+}
+
+.hub__cabecalho {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.hub__subtitulo {
+  color: var(--cor-texto-dim);
+  margin-top: 4px;
+}
+
+.hub__grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.cartao-fase {
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-fundo-painel);
+  border-radius: 4px;
+  padding: 20px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cartao-fase::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid transparent;
+}
+
+.cartao-fase--disponivel {
+  cursor: pointer;
+}
+
+.cartao-fase--disponivel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(57, 255, 138, 0.25);
+  border-color: var(--cor-borda-clara);
+}
+
+.cartao-fase--bloqueada {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.cartao-fase__numero {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--cor-texto-muted);
+  text-transform: uppercase;
+}
+
+.cartao-fase__nome {
+  font-size: 1.25rem;
+  margin: 0;
+  color: var(--cor-texto);
+}
+
+.cartao-fase__tema {
+  color: var(--cor-texto-dim);
+  font-size: 0.88rem;
+  min-height: 2.4em;
+}
+
+.status-pill {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+}
+
+.status-pill--bloqueada {
+  color: var(--cor-texto-muted);
+}
+
+.status-pill--em_progresso {
+  color: var(--cor-aviso);
+}
+
+.status-pill--concluida {
+  color: var(--cor-primaria);
+}
+
+/* ==================== Terminal ==================== */
+
+.terminal-tela {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 12px;
+  max-width: 980px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.terminal-tela__topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid var(--cor-borda);
+  padding-bottom: 10px;
+}
+
+.terminal-tela__fase {
+  color: var(--cor-texto-dim);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.terminal-tela__progresso {
+  color: var(--cor-secundaria);
+  font-size: 0.85rem;
+}
+
+.terminal-janela {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--cor-borda);
+  background: rgba(4, 10, 9, 0.85);
+  border-radius: 6px;
+  overflow: hidden;
+  min-height: 60vh;
+}
+
+.terminal-janela__barra {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--cor-fundo-painel-alt);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.terminal-janela__ponto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cor-texto-muted);
+}
+
+.terminal-janela__titulo {
+  margin-left: 8px;
+  font-size: 0.78rem;
+  color: var(--cor-texto-muted);
+}
+
+.terminal-janela__historico {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.linha {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 10px;
+}
+
+.linha--sistema {
+  color: var(--cor-secundaria);
+  border-left: 2px solid var(--cor-secundaria);
+  padding-left: 10px;
+}
+
+.linha--input {
+  color: var(--cor-texto);
+}
+
+.linha__prompt {
+  color: var(--cor-primaria);
+  margin-right: 6px;
+}
+
+.linha--output {
+  color: var(--cor-texto-dim);
+}
+
+.linha--sucesso {
+  color: var(--cor-primaria);
+}
+
+.linha--erro {
+  color: var(--cor-alerta);
+}
+
+.linha--banner {
+  color: var(--cor-primaria);
+  text-align: center;
+  font-weight: bold;
+}
+
+.terminal-janela__form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--cor-borda);
+  background: var(--cor-fundo-painel-alt);
+}
+
+.terminal-janela__prompt-fixo {
+  color: var(--cor-primaria);
+}
+
+.terminal-janela__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--cor-texto);
+  font-family: inherit;
+  font-size: 0.95rem;
+  caret-color: var(--cor-primaria);
+}
+
+.terminal-janela__enviar {
+  background: transparent;
+  border: 1px solid var(--cor-borda-clara);
+  color: var(--cor-primaria);
+  font-family: inherit;
+  padding: 6px 14px;
+  border-radius: 2px;
+}
+
+.terminal-janela__enviar:hover:not(:disabled) {
+  background: var(--cor-primaria);
+  color: #04140c;
+}
+
+.terminal-tela__rodape {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ==================== Guia do Novato ==================== */
+
+.guia-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1px solid var(--cor-borda-clara);
+  background: var(--cor-fundo-painel);
+  color: var(--cor-primaria);
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(57, 255, 138, 0.35);
+  z-index: 50;
+  transition: transform 0.15s ease;
+}
+
+.guia-fab:hover {
+  transform: scale(1.08);
+}
+
+.guia-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 5, 0.72);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 60;
+}
+
+.guia-painel {
+  width: min(380px, 100%);
+  height: 100%;
+  background: var(--cor-fundo-painel);
+  border-left: 1px solid var(--cor-borda-clara);
+  padding: 22px;
+  overflow-y: auto;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.guia-painel__cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.guia-painel__titulo {
+  color: var(--cor-primaria);
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.guia-painel__fechar {
+  background: transparent;
+  border: none;
+  color: var(--cor-texto-dim);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.guia-painel__fechar:hover {
+  color: var(--cor-alerta);
+}
+
+.guia-painel__subtitulo {
+  color: var(--cor-texto-dim);
+  font-size: 0.82rem;
+  margin: 0 0 18px;
+}
+
+.guia-comando {
+  border-top: 1px solid var(--cor-borda);
+  padding: 12px 0;
+}
+
+.guia-comando__nome {
+  color: var(--cor-secundaria);
+  font-weight: bold;
+}
+
+.guia-comando__sintaxe {
+  display: block;
+  color: var(--cor-aviso);
+  font-size: 0.85rem;
+  margin: 4px 0;
+}
+
+.guia-comando__descricao {
+  color: var(--cor-texto-dim);
+  font-size: 0.86rem;
+  margin: 0;
+}
+
+/* ==================== Conclusão de fase ==================== */
+
+.conclusao__caixa {
+  max-width: 560px;
+  border: 1px solid var(--cor-primaria-dim);
+  background: var(--cor-fundo-painel);
+  padding: 40px;
+  border-radius: 4px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(57, 255, 138, 0.15);
+}
+
+.conclusao__icone {
+  font-size: 2.6rem;
+  margin-bottom: 12px;
+}
+
+.conclusao__titulo {
+  color: var(--cor-primaria);
+  margin: 0 0 8px;
+  text-shadow: 0 0 12px rgba(57, 255, 138, 0.4);
+}
+
+.conclusao__fase {
+  color: var(--cor-texto-dim);
+  margin-bottom: 24px;
+}
+
+.conclusao__acoes {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
