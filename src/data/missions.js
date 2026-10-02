@@ -13,11 +13,9 @@ export const missions = {
     priority: "CRÍTICO",
     xpReward: 350,
     codexDescricao:
-      "Comandos de diagnóstico e recuperação. Aprenda a localizar falhas e restaurar conectividade na rede corporativa.",
-    lore: `A rede principal da Helix Corporation sofreu uma queda inesperada.
-Funcionários do setor financeiro perderam acesso a todos os sistemas.
-O servidor FINANCE-02 está offline e gerando cascata de falhas.
-Seu trabalho é investigar, identificar o problema e restaurar a conectividade.`,
+      "Comandos de diagnóstico e recuperação. Com eles você descobre onde a rede quebrou e como religar o que caiu.",
+    lore: `A rede da Helix Corporation caiu sem aviso. O financeiro inteiro perdeu acesso aos sistemas, e o FINANCE-02 está offline arrastando outros serviços junto.
+Descubra o que aconteceu e coloque o servidor de volta no ar.`,
     objectives: [
       { id: "obj1", text: "Localizar o servidor offline no mapa de rede" },
       { id: "obj2", text: "Usar ping para testar conectividade" },
@@ -28,9 +26,9 @@ Seu trabalho é investigar, identificar o problema e restaurar a conectividade.`
     // completar este objetivo ao clicar no nó-alvo no mapa de rede
     nodeClickObjective: "obj1",
     unlocks: "phase2",
-    cliffhanger: `[!] ALERTA: Tráfego desconhecido detectado na rede
-45.33.22.1 → FINANCE-02 · Porta 4444
-Investigação adicional necessária.`,
+    cliffhanger: `[!] ALERTA: tráfego desconhecido na rede.
+45.33.22.1 → FINANCE-02, porta 4444.
+Isso não acabou. Tem mais coisa aí dentro.`,
     cliffhangerAlerta: "Tráfego desconhecido detectado: 45.33.22.1 → FINANCE-02",
   },
   phase2: {
@@ -41,10 +39,9 @@ Investigação adicional necessária.`,
     priority: "ALTO",
     xpReward: 500,
     codexDescricao:
-      "Comandos de análise de tráfego e contenção. Aprenda a rastrear IPs suspeitos e bloquear invasores com o firewall.",
-    lore: `Com a rede restaurada, algo estranho aparece: pacotes desconhecidos
-circulando entre os servidores. Uma conexão não autorizada foi detectada vindo
-do IP 45.33.22.1. Alguém está tentando se infiltrar na infraestrutura da Helix.`,
+      "Comandos de análise de tráfego e contenção. Servem para rastrear IPs suspeitos e barrar invasores no firewall.",
+    lore: `A rede voltou, mas algo continua errado. Pacotes que ninguém reconhece circulam entre os servidores, e a origem parece ser o IP 45.33.22.1.
+Alguém está tentando entrar na infraestrutura da Helix.`,
     objectives: [
       { id: "obj1", text: "Identificar tráfego suspeito na rede" },
       { id: "obj2", text: "Rastrear a origem do IP desconhecido" },

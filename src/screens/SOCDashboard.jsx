@@ -35,8 +35,8 @@ export default function SOCDashboard() {
   const goToScreen = useGameStore((s) => s.goToScreen);
 
   const [historico, setHistorico] = useState([
-    { tipo: "info", texto: "SOC Terminal v1.0 — modo monitor" },
-    { tipo: "info", texto: "Digite 'help' para listar comandos disponíveis." },
+    { tipo: "info", texto: "SOC Terminal v1.0 (modo monitor)" },
+    { tipo: "info", texto: "Digite help para ver os comandos disponíveis." },
     { tipo: "aviso", texto: "[09:14:32] Anomalia detectada em FINANCE-02" },
   ]);
   const [valor, setValor] = useState("");
@@ -57,7 +57,7 @@ export default function SOCDashboard() {
       linhas.push({
         tipo: "info",
         texto:
-          "Comandos: help, status, alerts.\nAbra uma missão para acessar o terminal completo de diagnóstico.",
+          "Comandos: help, status, alerts.\nO terminal completo de diagnóstico só abre quando você inicia uma missão.",
       });
     } else if (comando === "status") {
       linhas.push({
@@ -77,7 +77,7 @@ export default function SOCDashboard() {
     } else {
       linhas.push({
         tipo: "erro",
-        texto: `Comando não reconhecido: "${texto}"\nDigite 'help' ou consulte o CODEX para ver os comandos disponíveis.`,
+        texto: `Comando não reconhecido: "${texto}"\nDigite help ou abra o CODEX para ver o que dá para usar.`,
       });
     }
 

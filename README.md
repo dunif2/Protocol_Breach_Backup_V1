@@ -1,123 +1,96 @@
-# 🛡️ Protocol: Breach
+# Protocol: Breach
 
-**A browser-based cybersecurity simulation game where players learn real security concepts by doing — not by reading.**
+A cybersecurity simulation game that runs in the browser. You play a junior analyst at a company that is already under attack.
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black&style=flat-square)](https://react.dev)
 [![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white&style=flat-square)](https://vitejs.dev)
 [![Zustand](https://img.shields.io/badge/State-Zustand-orange?style=flat-square)](https://github.com/pmndrs/zustand)
 [![Framer Motion](https://img.shields.io/badge/Animation-Framer%20Motion-ff0080?style=flat-square)](https://www.framer.com/motion/)
-[![Status](https://img.shields.io/badge/status-active%20development-brightgreen?style=flat-square)]()
 
----
+## What it is
 
-## 📖 Overview
+You start your first day at Helix Corporation's security operations center, and the finance server is already down. Nobody has time to walk you through it. You get a live network map, a terminal, and a few objectives.
 
-**Protocol: Breach** puts the player in the shoes of a newly hired **junior security analyst** at *Helix Corporation*, a company under active cyberattack. Working from a simulated **SOC (Security Operations Center)**, the player investigates real incidents — a downed server, unauthorized network traffic, a compromised port — using an interactive network map and a real command-line terminal.
+Most security training either lectures you or quizzes you. I wanted something closer to the real job, where you look at a broken system, form a theory, type a command and see what happens.
 
-The game is built around one core design principle: **the tool is taught, not the answer.** A built-in reference manual (the *Codex*) explains what each command does and why it exists — but never which command solves which incident, in what order, or with what parameter. Players have to reason through the scenario the same way a real analyst would.
+That led to the one rule the whole game is built around. The in-game manual, called the Codex, explains what every command does and why it exists. It never tells you which command solves the current problem, in what order to run them, or what to point them at. You work that out from the incident, the objectives and whatever the terminal prints back.
 
-This project was built to demonstrate that security concepts (networking, ports, DNS-style diagnostics, firewalls, incident response) can be taught through genuine problem-solving instead of multiple-choice quizzes.
+This is version 1. It's early, and it's playable from start to finish.
 
----
+## What you can play today
 
-## ✨ Features
+The game opens on a boot sequence, then drops you into the SOC dashboard: a department list, a live alert feed, an SVG map of the company network and a monitor terminal. Pick an incident and you get a briefing with the objectives and the concepts you'll run into.
 
-- **Boot sequence** — an animated system-initialization screen that sets the tone before the player ever touches the keyboard.
-- **SOC Dashboard** — a 3-column command center: unlockable departments, a live incident/alert feed, an interactive SVG network topology, and a monitor-mode terminal.
-- **Reactive network map** — nodes pulse and change color (online / degraded / offline) as the incident evolves, with an animated traffic path visualizing the live threat.
-- **Mission briefings** — every phase opens with a scenario briefing: the incident, the objectives, and the concepts the player will pick up along the way.
-- **A real terminal, not a quiz** — commands are typed from scratch. There are no pre-filled buttons handing over the correct answer; the player has to know (or look up) the right tool and the right parameter.
-- **The Codex** — an in-game manual documenting every available command (syntax, purpose, category) without ever revealing which one resolves the current objective.
-- **XP & leveling** — objectives and phases award experience, tracked in a persistent player profile.
-- **Built to grow** — departments, phases, objectives, and commands are all defined in a handful of data files. Adding a new investigation doesn't require touching the game engine.
+Then you investigate. Nodes on the map pulse and change color as things get fixed or get worse. Commands are typed by hand, with no suggested buttons to click. If you forget what `tracert` does, the Codex is one click away in the top corner.
 
----
+Two incidents are in so far, both under the Networks department:
 
-## 🕹️ Gameplay Loop
+1. **Network Failure.** A server is offline and nobody knows why.
+2. **Unknown Traffic.** Packets from an unfamiliar address keep hitting the network. Work out what they want and shut it down.
+
+Finishing objectives earns XP, which feeds a persistent level. Progress is saved in the browser.
+
+## Game flow
 
 ```mermaid
 flowchart LR
-    A[Boot Sequence] --> B[SOC Dashboard]
-    B --> C[Mission Briefing]
-    C --> D[Investigation Screen]
-    D -->|type commands, read the network map| E{Objectives complete?}
+    A[Boot sequence] --> B[SOC dashboard]
+    B --> C[Mission briefing]
+    C --> D[Investigation]
+    D --> E{All objectives done?}
     E -- no --> D
-    E -- yes --> F[XP awarded + Phase resolved]
-    F --> G[Next phase unlocked]
+    E -- yes --> F[XP awarded]
+    F --> G[Next incident unlocked]
     G --> B
 ```
 
----
+## Tech stack
 
-## 🧰 Tech Stack
+| Layer | Choice |
+|-------|--------|
+| UI | React 19 and Vite |
+| State | Zustand, persisted to `localStorage` |
+| Animation | Framer Motion for screen and modal transitions, CSS keyframes for the ambient effects |
+| Styling | CSS Modules |
+| Linting | oxlint |
 
-| Layer            | Choice                                         |
-|-------------------|-------------------------------------------------|
-| UI                | React 19 + Vite                                 |
-| State management  | Zustand (persisted to `localStorage`)           |
-| Animation         | Framer Motion                                   |
-| Styling           | CSS Modules, custom cyberpunk design system     |
-| Linting           | oxlint                                          |
+## Running it locally
 
----
-
-## 🚀 Getting Started
-
-**Prerequisites:** Node.js 18+ and npm.
+You need Node.js 18 or newer.
 
 ```bash
-# Clone the repository
 git clone https://github.com/dunif2/Protocol_Breach_V1.git
 cd Protocol_Breach_V1
-
-# Install dependencies
 npm install
-
-# Run the dev server
 npm run dev
 ```
 
-Other available scripts:
+The other scripts are `npm run build`, `npm run preview` and `npm run lint`.
 
-```bash
-npm run build     # production build
-npm run preview   # preview the production build locally
-npm run lint      # run oxlint
-```
-
----
-
-## 🗂️ Project Structure
+## How the code is organized
 
 ```
 src/
-├── screens/          # Top-level screens (Boot, SOC Dashboard, Gameplay, Codex, Mission Modal)
-├── components/        # Reusable UI (Terminal, NetworkMap, ObjectiveTracker, AlertPanel, ...)
-├── data/               # Game content: departments, missions, network nodes, commands
-├── store/             # Zustand store — XP, progress, node states, live alerts
-├── hooks/             # useTerminal (command execution), useProgress (objectives → XP → unlocks)
-└── App.jsx            # Screen router
+├── screens/      Boot, SOC dashboard, investigation, Codex, mission modal
+├── components/   Terminal, network map, objective tracker, alert feed
+├── data/         Departments, missions, network nodes, commands
+├── store/        Zustand store: XP, progress, node states, alerts
+└── hooks/        Command execution and objective-to-XP logic
 ```
 
-Every phase is defined once, in data, as a self-contained object: its briefing, its objectives, and the commands it exposes. The terminal engine and the Codex are both driven entirely by that data — adding **Phase 3** means writing a new phase object, not rewiring the game.
+Everything the game says and does lives in `src/data`. An incident is one object with its briefing, objectives and commands, and both the terminal and the Codex read from it. Adding a third incident means writing that object. The engine doesn't change.
 
----
+## Roadmap
 
-## 🗺️ Roadmap
+- [x] Networks department (two incidents)
+- [ ] Endpoint Security
+- [ ] Cryptography
+- [ ] Digital Forensics
+- [ ] Cloud save
+- [ ] Sound: keystrokes, alerts, the hum of a server room
 
-- [x] Department: **Networks** — *Network Failure* & *Unknown Traffic*
-- [ ] Department: **Endpoint Security**
-- [ ] Department: **Cryptography**
-- [ ] Department: **Digital Forensics**
-- [ ] Persistent backend / cloud save
-- [ ] Sound design (ambient SOC noise, keystroke feedback, alert chimes)
+## Author
 
----
+Made by [Ricardo](https://github.com/dunif2). Feedback and ideas are welcome, especially from people who work in security and can tell me what I got wrong.
 
-## 👤 Author
-
-Built by **[Ricardo](https://github.com/dunif2)**.
-
----
-
-<p align="center"><sub>Protocol: Breach is an educational simulation. Helix Corporation, its network, and all incidents depicted are fictional.</sub></p>
+Helix Corporation and every incident in the game are fictional.

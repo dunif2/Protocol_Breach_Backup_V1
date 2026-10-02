@@ -49,7 +49,7 @@ export const commandsByPhase = {
       oQueFaz:
         "Envia pequenos pacotes (ICMP Echo Request) para um host e espera uma resposta.",
       porQueUsar:
-        "Serve para testar se um servidor está acessível na rede e medir a latência (tempo de resposta). Se todas as requisições falham ('Request timed out'), o host está offline ou bloqueado.",
+        "Testa se um servidor responde na rede e mede a latência (o tempo de resposta). Se todas as requisições falham ('Request timed out'), o host está offline ou bloqueado.",
       exemplo: "ping finance-02",
       executar: (paramRaw, ctx) => {
         if (!paramRaw) {
@@ -62,7 +62,7 @@ export const commandsByPhase = {
         if (!no) {
           return {
             tipo: "erro",
-            texto: `Ping request could not find host ${paramRaw}. Verifique o nome e tente novamente.`,
+            texto: `Não encontrei o host ${paramRaw}. Confira o nome e tente de novo.`,
           };
         }
         const status = ctx.nodeStates[no.id]?.status ?? no.status;
@@ -101,7 +101,7 @@ Estatísticas do Ping para ${no.ip}:
       oQueFaz:
         "Mostra o caminho (cada 'hop'/roteador) que um pacote percorre até chegar ao destino.",
       porQueUsar:
-        "Quando o ping falha, o tracert revela em qual ponto da rede o pacote para — ajudando a identificar se o problema é no roteador, switch ou no próprio servidor.",
+        "Quando o ping falha, o tracert mostra em que ponto da rede o pacote para. Dá para saber se o problema está no roteador, no switch ou no próprio servidor.",
       exemplo: "tracert finance-02",
       executar: (paramRaw, ctx) => {
         if (!paramRaw) {
@@ -148,7 +148,7 @@ Rastreamento concluído.`,
       oQueFaz:
         "Exibe a configuração de rede da máquina local: IP, máscara de sub-rede e gateway padrão.",
       porQueUsar:
-        "Confirma que sua estação está corretamente configurada antes de investigar outros hosts.",
+        "Confirma que a sua estação está configurada direito, antes de você sair investigando os outros hosts.",
       exemplo: "ipconfig",
       executar: () => ({
         tipo: "output",
@@ -166,7 +166,7 @@ Adaptador Ethernet SOC-WORKSTATION:
       tags: ["Conexões", "TCP/UDP", "Monitoramento"],
       oQueFaz: "Lista as conexões de rede ativas na máquina/rede monitorada.",
       porQueUsar:
-        "Identifica hosts com volume de conexões fora do padrão, útil para localizar tráfego anômalo.",
+        "Mostra quais hosts abriram conexões demais ou fora do padrão. Ajuda a achar tráfego estranho.",
       exemplo: "netstat",
       executar: () => ({
         tipo: "output",
@@ -187,7 +187,7 @@ Adaptador Ethernet SOC-WORKSTATION:
       oQueFaz:
         "Envia um sinal de reinicialização para um host e aguarda a confirmação de retorno ao ar.",
       porQueUsar:
-        "Força um host a reiniciar sua conexão de rede, útil quando um serviço para de responder.",
+        "Força um host a reiniciar a conexão de rede. Útil quando um serviço para de responder.",
       exemplo: "restart finance-02",
       executar: (paramRaw, ctx) => {
         if (!paramRaw) {
@@ -210,7 +210,7 @@ Adaptador Ethernet SOC-WORKSTATION:
           return {
             tipo: "erro",
             texto:
-              "Reinício não disponível. Diagnostique a conectividade do host antes de reiniciá-lo.",
+              "Reinício bloqueado. Diagnostique o host antes de tentar reiniciá-lo.",
           };
         }
         return { tipo: "restart-sequence", alvo: no.id, completaObjetivo: "obj3" };
@@ -225,7 +225,7 @@ Adaptador Ethernet SOC-WORKSTATION:
       tags: ["Portas", "Serviços", "Reconhecimento"],
       oQueFaz: "Varre um host em busca de portas abertas e serviços em execução.",
       porQueUsar:
-        "Identifica portas/serviços inseguros que podem ser vetor do problema.",
+        "Mostra portas e serviços inseguros que podem ser a porta de entrada do problema.",
       exemplo: "scan 192.168.1.10",
       executar: (paramRaw) => {
         if (!paramRaw) return { tipo: "erro", texto: "Uso: scan <ip>" };
@@ -237,7 +237,7 @@ Adaptador Ethernet SOC-WORKSTATION:
 PORTA     SERVIÇO        ESTADO
 22/tcp    SSH            fechada
 80/tcp    HTTP           fechada
-4444/tcp  desconhecido   ⚠ ABERTA — tráfego não autorizado detectado
+4444/tcp  desconhecido   ⚠ ABERTA, tráfego não autorizado detectado
 
 >> Porta 4444 associada à conexão suspeita registrada no netstat.`,
           completaObjetivo: "obj3",
@@ -249,7 +249,7 @@ PORTA     SERVIÇO        ESTADO
       sintaxe: "whois <ip>",
       tags: ["Registro", "Reputação", "OSINT"],
       oQueFaz: "Consulta informações de registro de um endereço IP.",
-      porQueUsar: "Ajuda a confirmar se um IP suspeito é conhecido/legítimo.",
+      porQueUsar: "Ajuda a saber se um IP suspeito é conhecido ou legítimo.",
       exemplo: "whois 45.33.22.1",
       executar: (paramRaw) => {
         if (!paramRaw) return { tipo: "erro", texto: "Uso: whois <ip>" };
@@ -259,7 +259,7 @@ PORTA     SERVIÇO        ESTADO
 
 IP: ${paramRaw}
 Proprietário: Desconhecido / faixa não alocada
-Reputação: sem histórico — fora do padrão de tráfego da empresa
+Reputação: sem histórico, fora do padrão de tráfego da empresa
 
 >> Este IP não corresponde a nenhum parceiro ou funcionário conhecido.`,
           completaObjetivo: "obj2",
@@ -272,7 +272,7 @@ Reputação: sem histórico — fora do padrão de tráfego da empresa
       tags: ["Firewall", "Contenção", "Regras"],
       oQueFaz:
         "Gerencia as regras do firewall: bloqueia IPs ou lista as regras ativas.",
-      porQueUsar: "Usado para conter uma ameaça confirmada, cortando sua comunicação.",
+      porQueUsar: "Corta a comunicação de uma ameaça já confirmada.",
       exemplo: "firewall block 45.33.22.1",
       executar: (paramRaw) => {
         const partes = (paramRaw || "").trim().split(/\s+/);
@@ -305,7 +305,7 @@ Reputação: sem histórico — fora do padrão de tráfego da empresa
       sintaxe: "netstat -an",
       tags: ["Conexões", "TCP/UDP", "Monitoramento"],
       oQueFaz: "Lista as conexões de rede ativas, incluindo endereços externos.",
-      porQueUsar: "Revela conexões com IPs externos fora do padrão da empresa.",
+      porQueUsar: "Mostra conexões com IPs externos que fogem do padrão da empresa.",
       exemplo: "netstat -an",
       executar: () => ({
         tipo: "output",
@@ -342,7 +342,7 @@ export function interpretarComandoTerminal(entradaBruta, faseId, ctx) {
     return {
       tipo: "output",
       tomLinha: "info",
-      texto: `Comandos disponíveis:\n${lista}\n\nConsulte o CODEX para mais detalhes sobre cada comando.`,
+      texto: `Comandos disponíveis:\n${lista}\n\nO CODEX explica cada um com mais detalhe.`,
     };
   }
 
@@ -353,7 +353,7 @@ export function interpretarComandoTerminal(entradaBruta, faseId, ctx) {
   if (!comando) {
     return {
       tipo: "erro",
-      texto: `Comando não reconhecido: "${entradaLimpa}"\nDigite 'help' ou consulte o CODEX para ver os comandos disponíveis.`,
+      texto: `Comando não reconhecido: "${entradaLimpa}"\nDigite help ou abra o CODEX para ver o que dá para usar.`,
     };
   }
 

@@ -99,7 +99,7 @@ export default function GameplayScreen() {
               valor={valor}
               onValorChange={setValor}
               onEnviar={enviar}
-              placeholder='digite um comando... ("help" para ajuda, Codex para consultar comandos)'
+              placeholder='digite um comando ("help" lista as opções, o Codex explica cada uma)'
               processando={processando}
             />
           </div>

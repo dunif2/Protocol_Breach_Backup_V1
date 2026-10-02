@@ -48,7 +48,7 @@ export const networkNodes = {
     type: "server",
     status: "offline",
     latency: "TIMEOUT",
-    packets: "ERR — 100% loss",
+    packets: "ERR, 100% loss",
     x: 195,
     y: 430,
     isMissionTarget: true,

@@ -6,7 +6,7 @@ const LINHAS_BOOT = [
   { tag: "OK", texto: "Loading network topology..." },
   { tag: "WARN", texto: "Anomalous traffic detected on subnet 192.168.1.0/24" },
   { tag: "CRIT", texto: "Finance-02 server OFFLINE" },
-  { tag: "OK", texto: "Junior analyst credentials verified — Welcome." },
+  { tag: "OK", texto: "Junior analyst credentials verified. Welcome." },
 ];
 
 const TAG_CLASSE = { OK: "tagOK", WARN: "tagWARN", CRIT: "tagCRIT" };

@@ -33,7 +33,7 @@ export function useTerminal(faseId, historicoInicial = []) {
     return [
       {
         tipo: "sucesso",
-        texto: `✔ FASE CONCLUÍDA: ${missao.title.toUpperCase()} — +${missao.xpReward} XP`,
+        texto: `✔ FASE CONCLUÍDA: ${missao.title.toUpperCase()} (+${missao.xpReward} XP)`,
       },
       ...(missao.cliffhanger
         ? [{ tipo: "aviso", texto: missao.cliffhanger }]
@@ -79,7 +79,7 @@ export function useTerminal(faseId, historicoInicial = []) {
           updateNodeState(alvoId, { status: "online", latency: "3ms", packets: "OK" });
           adicionarLinhas({
             tipo: "sucesso",
-            texto: `✔ ${no.label} ONLINE — conectividade restaurada.`,
+            texto: `✔ ${no.label} ONLINE. Conectividade restaurada.`,
           });
           if (estadoAnterior === "offline") {
             pushAlert({
