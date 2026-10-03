@@ -34,18 +34,20 @@ export default function SOCDashboard() {
   const startPhase = useGameStore((s) => s.startPhase);
   const goToScreen = useGameStore((s) => s.goToScreen);
 
-  const [historico, setHistorico] = useState([
-    { tipo: "info", texto: "SOC Terminal v1.0 (modo monitor)" },
-    { tipo: "info", texto: "Digite help para ver os comandos disponíveis." },
-    { tipo: "aviso", texto: "[09:14:32] Anomalia detectada em FINANCE-02" },
-  ]);
-  const [valor, setValor] = useState("");
-
   const faseAtiva = missionOrder.find(
     (id) => unlockedPhases.includes(id) && !completedPhases.includes(id)
   );
   const missaoAtiva = faseAtiva ? missions[faseAtiva] : null;
   const ameaca = calcularNivelAmeaca(nodeStates);
+
+  const [historico, setHistorico] = useState(() => [
+    { tipo: "info", texto: "SOC Terminal v1.0 (modo monitor)" },
+    { tipo: "info", texto: "Digite help para ver os comandos disponíveis." },
+    missaoAtiva
+      ? { tipo: "aviso", texto: `[!] ${missaoAtiva.monitorAlerta}` }
+      : { tipo: "sucesso", texto: "Nenhuma anomalia ativa. Rede estável." },
+  ]);
+  const [valor, setValor] = useState("");
 
   function executarComandoMonitor(textoDigitado) {
     const texto = textoDigitado.trim();

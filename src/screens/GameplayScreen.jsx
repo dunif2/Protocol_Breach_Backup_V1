@@ -11,7 +11,7 @@ import styles from "./GameplayScreen.module.css";
 
 export default function GameplayScreen() {
   const faseId = useGameStore((s) => s.activePhase);
-  const goToScreen = useGameStore((s) => s.goToScreen);
+  const goToScreenWithLoading = useGameStore((s) => s.goToScreenWithLoading);
   const nodeStates = useGameStore((s) => s.nodeStates);
   const objectives = useGameStore((s) => s.objectives);
 
@@ -45,7 +45,7 @@ export default function GameplayScreen() {
   return (
     <div className={styles.tela}>
       <div className={styles.topbar}>
-        <button className={styles.voltar} onClick={() => goToScreen("soc")}>
+        <button className={styles.voltar} onClick={() => goToScreenWithLoading("soc", "VOLTANDO AO SOC")}>
           ◀ SOC
         </button>
         <span className={styles.faseLabel}>{missao.phase}</span>

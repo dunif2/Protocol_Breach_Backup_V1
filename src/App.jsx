@@ -5,6 +5,7 @@ import SOCDashboard from "./screens/SOCDashboard";
 import GameplayScreen from "./screens/GameplayScreen";
 import CodexScreen from "./screens/CodexScreen";
 import MissionModal from "./screens/MissionModal";
+import LoadingScreen from "./components/LoadingScreen";
 
 const TELAS = {
   boot: BootScreen,
@@ -15,9 +16,11 @@ const TELAS = {
 
 export default function App() {
   const currentScreen = useGameStore((s) => s.currentScreen);
-  const goToScreen = useGameStore((s) => s.goToScreen);
+  const goToScreenWithLoading = useGameStore((s) => s.goToScreenWithLoading);
+  const carregando = useGameStore((s) => Boolean(s.loading));
 
   const TelaAtual = TELAS[currentScreen];
+  // Durante o carregamento a troca de tela é instantânea: o overlay já cobre tudo.
 
   return (
     <>
@@ -30,13 +33,16 @@ export default function App() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: "easeInOut" }}
+          transition={{ duration: carregando ? 0 : 0.35, ease: "easeInOut" }}
         >
-          <TelaAtual onEntrar={() => goToScreen("soc")} />
+          <TelaAtual
+            onEntrar={() => goToScreenWithLoading("soc", "INICIALIZANDO SOC")}
+          />
         </motion.div>
       </AnimatePresence>
 
       <MissionModal />
+      <LoadingScreen />
     </>
   );
 }

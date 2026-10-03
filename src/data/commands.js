@@ -23,6 +23,9 @@ import { networkNodes } from "./nodes";
  *   }
  */
 
+// Endereço do invasor no incidente "Unknown Traffic".
+const IP_SUSPEITO = "45.33.22.1";
+
 function normalizarHost(texto) {
   return texto
     .trim()
@@ -50,7 +53,7 @@ export const commandsByPhase = {
         "Envia pequenos pacotes (ICMP Echo Request) para um host e espera uma resposta.",
       porQueUsar:
         "Testa se um servidor responde na rede e mede a latência (o tempo de resposta). Se todas as requisições falham ('Request timed out'), o host está offline ou bloqueado.",
-      exemplo: "ping finance-02",
+      exemplo: "ping web-01",
       executar: (paramRaw, ctx) => {
         if (!paramRaw) {
           return {
@@ -103,7 +106,7 @@ Estatísticas do Ping para ${no.ip}:
         "Mostra o caminho (cada 'hop'/roteador) que um pacote percorre até chegar ao destino.",
       porQueUsar:
         "Quando o ping falha, o tracert mostra em que ponto da rede o pacote para. Dá para saber se o problema está no roteador, no switch ou no próprio servidor.",
-      exemplo: "tracert finance-02",
+      exemplo: "tracert web-01",
       executar: (paramRaw, ctx) => {
         if (!paramRaw) {
           return { tipo: "erro", texto: "Uso: tracert <host|ip>" };
@@ -190,7 +193,7 @@ Adaptador Ethernet SOC-WORKSTATION:
         "Envia um sinal de reinicialização para um host e aguarda a confirmação de retorno ao ar.",
       porQueUsar:
         "Força um host a reiniciar a conexão de rede. Útil quando um serviço para de responder.",
-      exemplo: "restart finance-02",
+      exemplo: "restart web-01",
       executar: (paramRaw, ctx) => {
         if (!paramRaw) {
           return { tipo: "erro", texto: "Uso: restart <host>" };
@@ -228,13 +231,32 @@ Adaptador Ethernet SOC-WORKSTATION:
       oQueFaz: "Varre um host em busca de portas abertas e serviços em execução.",
       porQueUsar:
         "Mostra portas e serviços inseguros que podem ser a porta de entrada do problema.",
-      exemplo: "scan 192.168.1.10",
+      exemplo: "scan 192.168.1.20",
       executar: (paramRaw) => {
         if (!paramRaw) return { tipo: "erro", texto: "Uso: scan <ip>" };
+        const no = encontrarNo(paramRaw);
+        if (!no) {
+          return {
+            tipo: "erro",
+            texto: `Varredura recusada: ${paramRaw} está fora da rede interna da Helix.`,
+          };
+        }
+        if (no.id !== "finance") {
+          return {
+            tipo: "output",
+            texto: `Escaneando ${no.label} [${no.ip}]...
+
+PORTA     SERVIÇO        ESTADO
+22/tcp    SSH            fechada
+80/tcp    HTTP           fechada
+
+>> Nada fora do padrão neste host.`,
+          };
+        }
         return {
           tipo: "output",
           tomLinha: "aviso",
-          texto: `Escaneando ${paramRaw}...
+          texto: `Escaneando ${no.label} [${no.ip}]...
 
 PORTA     SERVIÇO        ESTADO
 22/tcp    SSH            fechada
@@ -252,9 +274,32 @@ PORTA     SERVIÇO        ESTADO
       tags: ["Registro", "Reputação", "OSINT"],
       oQueFaz: "Consulta informações de registro de um endereço IP.",
       porQueUsar: "Ajuda a saber se um IP suspeito é conhecido ou legítimo.",
-      exemplo: "whois 45.33.22.1",
+      exemplo: "whois 8.8.8.8",
       executar: (paramRaw) => {
         if (!paramRaw) return { tipo: "erro", texto: "Uso: whois <ip>" };
+        const interno = encontrarNo(paramRaw);
+        if (interno) {
+          return {
+            tipo: "output",
+            texto: `Executando whois ${paramRaw}...
+
+IP: ${interno.ip}
+Proprietário: Helix Corporation (${interno.label})
+Reputação: rede interna
+
+>> Host interno, sem relação com tráfego externo.`,
+          };
+        }
+        if (paramRaw.trim() !== IP_SUSPEITO) {
+          return {
+            tipo: "output",
+            texto: `Executando whois ${paramRaw}...
+
+IP: ${paramRaw}
+Proprietário: Provedor de hospedagem
+Reputação: sem ocorrências ligadas ao incidente atual`,
+          };
+        }
         return {
           tipo: "output",
           texto: `Executando whois ${paramRaw}...
@@ -275,19 +320,34 @@ Reputação: sem histórico, fora do padrão de tráfego da empresa
       oQueFaz:
         "Gerencia as regras do firewall: bloqueia IPs ou lista as regras ativas.",
       porQueUsar: "Corta a comunicação de uma ameaça já confirmada.",
-      exemplo: "firewall block 45.33.22.1",
-      executar: (paramRaw) => {
+      exemplo: "firewall block 203.0.113.9",
+      executar: (paramRaw, ctx) => {
         const partes = (paramRaw || "").trim().split(/\s+/);
         const [acao, alvo] = partes;
         if (normalizarHost(acao || "") === "status") {
+          const regraNegar = ctx.objetivos.obj4
+            ? `  DENY  ${IP_SUSPEITO}  (adicionada manualmente)\n`
+            : "";
           return {
             tipo: "output",
             texto: `Regras de firewall ativas:
-  DENY  45.33.22.1  (adicionada manualmente)
-  ALLOW 192.168.1.0/24`,
+${regraNegar}  ALLOW 192.168.1.0/24`,
           };
         }
         if (normalizarHost(acao || "") === "block" && alvo) {
+          if (encontrarNo(alvo)) {
+            return {
+              tipo: "erro",
+              texto: `Regra recusada: ${alvo} pertence à rede interna da Helix. Bloquear esse host derrubaria a operação.`,
+            };
+          }
+          if (alvo !== IP_SUSPEITO) {
+            return {
+              tipo: "output",
+              tomLinha: "aviso",
+              texto: `Nenhuma conexão ativa de ${alvo}. Regra não aplicada.`,
+            };
+          }
           return {
             tipo: "output",
             tomLinha: "sucesso",
@@ -309,17 +369,30 @@ Reputação: sem histórico, fora do padrão de tráfego da empresa
       oQueFaz: "Lista as conexões de rede ativas, incluindo endereços externos.",
       porQueUsar: "Mostra conexões com IPs externos que fogem do padrão da empresa.",
       exemplo: "netstat -an",
-      executar: () => ({
-        tipo: "output",
-        tomLinha: "aviso",
-        texto: `Conexões Ativas (-an)
+      executar: (paramRaw) => {
+        // Sem -an a lista mostra só as conexões locais, sem endereços externos.
+        if (paramRaw.trim().toLowerCase() !== "-an") {
+          return {
+            tipo: "output",
+            texto: `Conexões Ativas
+
+  Proto  Endereço Local        Endereço Remoto        Estado
+  TCP    192.168.1.50:443      142.250.80.14:443      ESTABELECIDO
+  TCP    192.168.1.50:80       192.168.1.20:52344     ESTABELECIDO`,
+          };
+        }
+        return {
+          tipo: "output",
+          tomLinha: "aviso",
+          texto: `Conexões Ativas (-an)
 
   Proto  Endereço Local        Endereço Remoto        Estado
   TCP    192.168.1.10:4444     45.33.22.1:51022       ESTABELECIDO
 
 >> Volume incomum de conexões originado de 45.33.22.1.`,
-        completaObjetivo: "obj1",
-      }),
+          completaObjetivo: "obj1",
+        };
+      },
     },
   ],
 };

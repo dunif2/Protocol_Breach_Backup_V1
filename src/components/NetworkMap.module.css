@@ -108,6 +108,18 @@
   fill: var(--red-alert);
 }
 
+.circuloExterno {
+  fill: var(--bg-card);
+  stroke: var(--red-alert);
+  stroke-width: 2.5;
+  stroke-dasharray: 5 4;
+  animation: pulsoCritico 1s ease-in-out infinite;
+}
+
+.pontoExterno {
+  fill: var(--red-alert);
+}
+
 .rotulo {
   font-family: var(--font-mono);
   font-size: 11px;

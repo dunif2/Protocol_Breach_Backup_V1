@@ -11,6 +11,7 @@ export const missions = {
     title: "Network Failure",
     phase: "FASE 01 · DEPARTAMENTO DE REDES",
     priority: "CRÍTICO",
+    monitorAlerta: "Anomalia detectada em FINANCE-02",
     xpReward: 350,
     codexDescricao:
       "Comandos de diagnóstico e recuperação. Com eles você descobre onde a rede quebrou e como religar o que caiu.",
@@ -37,6 +38,7 @@ Isso não acabou. Tem mais coisa aí dentro.`,
     title: "Unknown Traffic",
     phase: "FASE 02 · DEPARTAMENTO DE REDES",
     priority: "ALTO",
+    monitorAlerta: "Tráfego não autorizado vindo de 45.33.22.1",
     xpReward: 500,
     codexDescricao:
       "Comandos de análise de tráfego e contenção. Servem para rastrear IPs suspeitos e barrar invasores no firewall.",

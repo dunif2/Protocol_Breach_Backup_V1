@@ -99,6 +99,16 @@ export const networkNodes = {
   },
 };
 
+// Host externo que aparece no mapa enquanto o incidente "Unknown Traffic"
+// está ativo. Não faz parte da rede da Helix e não pode ser clicado.
+export const intruso = {
+  id: "intruso",
+  label: "45.33.22.1",
+  ip: "EXTERNO",
+  x: 110,
+  y: 90,
+};
+
 export const networkEdges = [
   { from: "router", to: "switch1" },
   { from: "router", to: "switch2" },

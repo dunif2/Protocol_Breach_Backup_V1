@@ -1,0 +1,72 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg-deep);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+}
+
+.ativo {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.2s ease, visibility 0s;
+}
+
+.marca {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  color: var(--blue-neon);
+  text-shadow: 0 0 12px rgba(0, 212, 255, 0.6);
+}
+
+.texto {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+.texto::after {
+  content: "_";
+  color: var(--green-terminal);
+  animation: piscar 0.8s steps(1) infinite;
+}
+
+@keyframes piscar {
+  50% {
+    opacity: 0;
+  }
+}
+
+.trilha {
+  width: min(280px, 70vw);
+  height: 4px;
+  background: rgba(0, 212, 255, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.barra {
+  height: 100%;
+  width: 0;
+  background: var(--blue-neon);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.7);
+  animation-name: encher;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes encher {
+  to {
+    width: 100%;
+  }
+}
