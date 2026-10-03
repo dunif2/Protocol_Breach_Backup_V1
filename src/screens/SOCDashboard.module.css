@@ -1,5 +1,7 @@
 .tela {
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -83,6 +85,7 @@
   flex: 1;
   display: grid;
   grid-template-columns: 260px 1fr 340px;
+  grid-template-rows: minmax(0, 1fr);
   gap: 16px;
   padding: 16px 22px 22px;
   min-height: 0;
