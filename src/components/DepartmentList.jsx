@@ -26,7 +26,9 @@ export default function DepartmentList({
             <span className={styles.icone}>{desbloqueado ? depto.icone : "🔒"}</span>
             <span className={styles.nome}>{depto.nome.toUpperCase()}</span>
             {desbloqueado && incidentesAtivos > 0 && (
-              <span className={styles.contagem}>{incidentesAtivos} INCIDENTES</span>
+              <span className={styles.contagem}>
+                {incidentesAtivos} {incidentesAtivos === 1 ? "INCIDENTE" : "INCIDENTES"}
+              </span>
             )}
           </div>
         );
