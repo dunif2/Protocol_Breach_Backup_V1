@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Skill de escrita usada no projeto (nao vai pro repositorio)
+escrita-humana.zip
