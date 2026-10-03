@@ -30,8 +30,9 @@ export function calcularNivel(xp) {
 const useGameStore = create(
   persist(
     (set, get) => ({
-      // Tela de carregamento: { texto, duracao } enquanto uma transição roda.
-      // Não é salvo no localStorage (ver partialize abaixo).
+      // Tela de carregamento: { id, texto, duracao, ativo }. Fica null até a
+      // primeira transição e depois só troca `ativo`. Não é salvo no
+      // localStorage (ver partialize abaixo).
       loading: null,
 
       // ---- Estado do jogador ----
@@ -61,11 +62,15 @@ const useGameStore = create(
       // Mostra a tela de carregamento, roda `acao` com ela totalmente visível
       // e depois libera. Ignora pedidos enquanto outra transição está rodando.
       comCarregamento: (texto, acao, duracao = DURACAO_CARREGAMENTO_MS) => {
-        if (get().loading) return;
-        set({ loading: { id: Date.now(), texto, duracao } });
+        if (get().loading?.ativo) return;
+        set({ loading: { id: Date.now(), texto, duracao, ativo: true } });
         setTimeout(() => {
           acao();
-          setTimeout(() => set({ loading: null }), SAIDA_CARREGAMENTO_MS);
+          // Mantém o texto no estado (ativo: false) para ele aparecer durante o fade-out.
+          setTimeout(
+            () => set((s) => ({ loading: s.loading && { ...s.loading, ativo: false } })),
+            SAIDA_CARREGAMENTO_MS
+          );
         }, duracao);
       },
 
@@ -76,7 +81,7 @@ const useGameStore = create(
       closeMission: () => set({ missionModalPhase: null }),
 
       startPhase: (phaseId) => {
-        if (get().loading) return;
+        if (get().loading?.ativo) return;
         set({ missionModalPhase: null });
         const titulo = missions[phaseId]?.title ?? "";
         get().comCarregamento(`CARREGANDO MISSÃO · ${titulo.toUpperCase()}`, () =>

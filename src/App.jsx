@@ -17,7 +17,7 @@ const TELAS = {
 export default function App() {
   const currentScreen = useGameStore((s) => s.currentScreen);
   const goToScreenWithLoading = useGameStore((s) => s.goToScreenWithLoading);
-  const carregando = useGameStore((s) => Boolean(s.loading));
+  const carregando = useGameStore((s) => Boolean(s.loading?.ativo));
 
   const TelaAtual = TELAS[currentScreen];
   // Durante o carregamento a troca de tela é instantânea: o overlay já cobre tudo.
