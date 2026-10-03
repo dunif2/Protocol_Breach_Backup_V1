@@ -2,7 +2,6 @@ import { useState } from "react";
 import useGameStore from "../store/useGameStore";
 import { missions } from "../data/missions";
 import { useTerminal } from "../hooks/useTerminal";
-import { useProgress } from "../hooks/useProgress";
 import NetworkMap from "../components/NetworkMap";
 import NodeInspector from "../components/NodeInspector";
 import ObjectiveTracker from "../components/ObjectiveTracker";
@@ -15,7 +14,6 @@ export default function GameplayScreen() {
   const goToScreen = useGameStore((s) => s.goToScreen);
   const nodeStates = useGameStore((s) => s.nodeStates);
   const objectives = useGameStore((s) => s.objectives);
-  const { completarObjetivo } = useProgress();
 
   const [nodeSelecionado, setNodeSelecionado] = useState(null);
   const [codexAberto, setCodexAberto] = useState(false);
@@ -27,10 +25,8 @@ export default function GameplayScreen() {
     { tipo: "sistema", texto: `INCIDENTE: ${missao.title}\n${missao.lore}` },
   ];
 
-  const { historico, valor, setValor, enviar, processando } = useTerminal(
-    faseId,
-    historicoInicial
-  );
+  const { historico, valor, setValor, enviar, concluirObjetivoNoMapa, processando } =
+    useTerminal(faseId, historicoInicial);
 
   function handleNodeClick(nodeId) {
     setNodeSelecionado(nodeId);
@@ -39,7 +35,7 @@ export default function GameplayScreen() {
       nodeId === missao.targetNode &&
       !concluidos[missao.nodeClickObjective]
     ) {
-      completarObjetivo(faseId, missao.nodeClickObjective);
+      concluirObjetivoNoMapa(missao.nodeClickObjective);
     }
   }
 

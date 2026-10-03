@@ -17,7 +17,7 @@ export const missions = {
     lore: `A rede da Helix Corporation caiu sem aviso. O financeiro inteiro perdeu acesso aos sistemas, e o FINANCE-02 está offline arrastando outros serviços junto.
 Descubra o que aconteceu e coloque o servidor de volta no ar.`,
     objectives: [
-      { id: "obj1", text: "Localizar o servidor offline no mapa de rede" },
+      { id: "obj1", text: "Localizar o servidor com problema no mapa de rede (clique nele)" },
       { id: "obj2", text: "Usar ping para testar conectividade" },
       { id: "obj3", text: "Reiniciar a conexão e restaurar o servidor" },
     ],

@@ -51,7 +51,7 @@ export default function NetworkMap({ nodeStates, onNodeClick, titulo }) {
             return (
               <g
                 key={id}
-                className={`${styles.no} status-${no.status}`}
+                className={`${styles.no} ${styles[`status-${no.status}`]}`}
                 transform={`translate(${no.x}, ${no.y})`}
                 onClick={() => onNodeClick?.(id)}
               >

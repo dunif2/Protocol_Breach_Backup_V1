@@ -66,6 +66,7 @@ export const commandsByPhase = {
           };
         }
         const status = ctx.nodeStates[no.id]?.status ?? no.status;
+        const latencia = ctx.nodeStates[no.id]?.latency ?? no.latency;
         if (status === "offline") {
           return {
             tipo: "output",
@@ -85,9 +86,9 @@ Estatísticas do Ping para ${no.ip}:
         return {
           tipo: "output",
           texto: `Disparando ${no.label} [${no.ip}] com 32 bytes de dados:
-Resposta de ${no.ip}: bytes=32 tempo=${no.latency} TTL=64
-Resposta de ${no.ip}: bytes=32 tempo=${no.latency} TTL=64
-Resposta de ${no.ip}: bytes=32 tempo=${no.latency} TTL=64
+Resposta de ${no.ip}: bytes=32 tempo=${latencia} TTL=64
+Resposta de ${no.ip}: bytes=32 tempo=${latencia} TTL=64
+Resposta de ${no.ip}: bytes=32 tempo=${latencia} TTL=64
 
 Estatísticas do Ping para ${no.ip}:
     Pacotes: Enviados = 3, Recebidos = 3, Perdidos = 0 (0% de perda)`,
@@ -115,6 +116,7 @@ Estatísticas do Ping para ${no.ip}:
           };
         }
         const status = ctx.nodeStates[no.id]?.status ?? no.status;
+        const latencia = ctx.nodeStates[no.id]?.latency ?? no.latency;
         if (status === "offline") {
           return {
             tipo: "output",
@@ -135,7 +137,7 @@ Estatísticas do Ping para ${no.ip}:
 
   1    1 ms   ROUTER-CORE [192.168.1.1]
   2    2 ms   SWITCH-01 [192.168.1.2]
-  3    ${no.latency}   ${no.label} [${no.ip}]
+  3    ${latencia}   ${no.label} [${no.ip}]
 
 Rastreamento concluído.`,
         };

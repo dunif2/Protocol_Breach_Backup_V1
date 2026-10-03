@@ -134,12 +134,27 @@ export function useTerminal(faseId, historicoInicial = []) {
     executar(valor);
   }
 
+  // Objetivo concluído fora do terminal (ex: clicando num nó do mapa).
+  // Avisa no terminal para o jogador saber que contou.
+  function concluirObjetivoNoMapa(objId) {
+    if (!faseId) return;
+    const objetivo = missions[faseId].objectives.find((o) => o.id === objId);
+    if (objetivo) {
+      adicionarLinhas({ tipo: "sucesso", texto: `✔ Objetivo concluído: ${objetivo.text}` });
+    }
+    completarObjetivo(faseId, objId, {
+      onFaseConcluida: (missao) =>
+        adicionarLinhas(...linhasDeConclusaoDaFase(missao)),
+    });
+  }
+
   return {
     historico,
     valor,
     setValor,
     enviar,
     executar,
+    concluirObjetivoNoMapa,
     processando,
   };
 }
